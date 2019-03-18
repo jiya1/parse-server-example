@@ -5,18 +5,18 @@ var express = require('express');
 var ParseServer = require('parse-server').ParseServer;
 var path = require('path');
 
-var databaseUri = process.env.DATABASE_URI || process.env.MONGODB_URI;
+var databaseUri = process.env.DATABASE_URI || process.env.MONGOLAB_URI;
 
 if (!databaseUri) {
   console.log('DATABASE_URI not specified, falling back to localhost.');
 }
 
 var api = new ParseServer({
-  databaseURI: databaseUri || 'mongodb://heroku_72fpkhk1:jp6rjme4kesuerbjqe35tou8vg@ds123974-a0.mlab.com:23974,ds123974-a1.mlab.com:23974/heroku_72fpkhk1?replicaSet=rs-ds123974',
+  databaseURI: databaseUri || 'mongodb://localhost:27017/dev',
   cloud: process.env.CLOUD_CODE_MAIN || __dirname + '/cloud/main.js',
-  appId: process.env.APP_ID || 'rSgKduZpJbzYeI3VgUCOfALmQ0HUIGRGsbr88zb9',
-  masterKey: process.env.MASTER_KEY || 'fALmQ0HUIGRGsbr88zb9rSgKduZpJbzYeI3VgUCO', //Add your master key here. Keep it secret!
-  serverURL: process.env.SERVER_URL || 'https://uniono.herokuapp.com/parse',  // Don't forget to change to https if needed
+  appId: process.env.APP_ID || 'myAppId',
+  masterKey: process.env.MASTER_KEY || '', //Add your master key here. Keep it secret!
+  serverURL: process.env.SERVER_URL || 'http://localhost:1337/parse',  // Don't forget to change to https if needed
   liveQuery: {
     classNames: ["Posts", "Comments"] // List of classes to support for query subscriptions
   }
@@ -36,7 +36,7 @@ app.use(mountPath, api);
 
 // Parse Server plays nicely with the rest of your web routes
 app.get('/', function(req, res) {
-  res.status(200).send('I dream of being a website.  Please star the parse-server repo on GitHub!');
+  res.status(200).send('Make sure to star the parse-server repo on GitHub!');
 });
 
 // There will be a test page available on the /test path of your server url
